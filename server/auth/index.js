@@ -28,9 +28,10 @@ router.get('/google/callback',
       if (err) { return next(err); }
       try {
         const token = await create(user);
-        res.json({token});
+        // currently not best practice
+        res.redirect(`${process.env.CLIENT_REDIRECT}${token}`);
       } catch (error) {
-        next(error);
+        res.redirect(`${process.env.CLIENT_ERROR_REDIRECT}${error.message}`);
       }
     })(req, res, next);
   });
