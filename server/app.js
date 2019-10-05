@@ -5,7 +5,11 @@ const passport = require('passport');
 
 require('dotenv').config();
 
-const {notFound, errorHandler} = require('./middlewares');
+const {checkAuthHeaderSetUser,
+    checkAuthHeaderSetUserUnAuthorized,
+    notFound,
+    errorHandler
+} = require('./middlewares');
 const auth = require('./auth');
 const app = express();
 
@@ -16,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(passport.initialize());
 // app.use(passport.session()); we won't need this because we are going to user JWT
+app.use(checkAuthHeaderSetUser);
 
 // routes here
 app.get('/', (req, res) => {
