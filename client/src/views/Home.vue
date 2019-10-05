@@ -19,7 +19,7 @@ export default {
   name: 'home',
   computed: {
     getLoginURL() {
-      if ( window.location.hostname = 'localhost'){
+      if ( window.location.hostname === 'localhost'){
         return 'http://localhost:3000/auth/google';
       } else {
         return 'http://localhost:3000/no-current-prod-env';

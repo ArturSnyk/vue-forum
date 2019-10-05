@@ -18,26 +18,30 @@ passport.use(new GoogleStrategy({
 	callbackURL: "/auth/google/callback"
 },
   async (accessToken, refreshToken, profile, cb) => {
-    const email = profile.emails[0].value;
-    const googleUser = {
+		const email = profile.emails[0].value;
+		const googleUser = {
 			display_name: profile.displayName,
 			email,
 			google_id: profile.id,
 			// banned, use default value
 			image_url: profile.photos[0].value,
 			role_id: 1,
-    }
-	try {
-		let user = await users.findByeEmail(email);
-		if (user){
-			googleUser.role_id = user.role_id;
-			user = await users.update(user.id, googleUser);
-		} else {
-			user = await users.insert(googleUser);
 		}
-		return cb(null, user);
-	} catch (error) {
-		return cb(error);
-	}
+		try {
+			let user = await users.findByeEmail(email);
+			if (user){
+				googleUser.role_id = user.role_id;
+				user = await users.update(user.id, googleUser);
+			} else {
+				const admins = await users.findAdmins();
+				if (admins.length === 0){
+					googleUser.role_id = 3;
+				}
+				user = await users.insert(googleUser);
+			}
+			return cb(null, user);
+		} catch (error) {
+			return cb(error);
+		}
   }
 ));
