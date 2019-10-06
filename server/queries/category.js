@@ -5,7 +5,11 @@ const { insertIntoTableAndValidate } = require('../queries');
 const schema = Joi.object().keys({
   title: Joi.string().required(),
   description: Joi.string().required(),
-  image_url: Joi.string(),
+  image_url: Joi.string().allow('').uri({
+    scheme: [
+      /\+https?/
+    ]
+  }),
 });
 
 module.exports = {

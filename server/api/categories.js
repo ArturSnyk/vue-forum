@@ -1,7 +1,7 @@
 const express = require('express');
 
-const router = express();
-const { checkAuthHeaderSetUserUnAuthorized } = require('../middlewares')
+const router = express.Router();
+const { checkAuthHeaderSetUserUnAuthorized, isAdmin } = require('../middlewares')
 const categories = require('../queries/category');
 
 router.get('/', async (req, res, next) => {

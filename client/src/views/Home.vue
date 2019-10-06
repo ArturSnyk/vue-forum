@@ -6,7 +6,15 @@
       <hr class="my-4">
       <p>It's all about practicing some code.</p>
       <p class="lead">
-        <a class="btn btn-primary btn-lg" :href="getLoginURL" role="button">Login with Google</a>
+        <a
+          v-if="!user"
+          class="btn btn-danger btn-lg"
+          :href="getLoginURL"
+          role="button">Login with Google</a>
+        <router-link
+          class="btn btn-primary btn-lg"
+          to="/forum"
+          role="button">Go to forum</router-link>
       </p>
     </div>
 
@@ -14,17 +22,18 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
   name: 'home',
   computed: {
+    ...mapState(['user']), // means that this component has access to user
     getLoginURL() {
-      if ( window.location.hostname === 'localhost'){
+      if (window.location.hostname === 'localhost') {
         return 'http://localhost:3000/auth/google';
-      } else {
-        return 'http://localhost:3000/no-current-prod-env';
       }
-    }
-  }
+      return 'http://localhost:3000/no-current-prod-env';
+    },
+  },
 };
 </script>

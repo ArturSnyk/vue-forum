@@ -15,10 +15,10 @@ router.get('/isAdmin', async (req, res) => {
   res.json({ isAdmin: false})
 });
 
-    router.get('/google',
+router.get('/google',
   passport.authenticate('google', {
-      scope: ['profile', 'email']
-    }));
+    scope: ['profile', 'email']
+  }));
 
 router.get('/google/callback',
   // default auth request handeling

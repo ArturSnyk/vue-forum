@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const passport = require('passport');
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -17,10 +18,10 @@ const api = require('./api');
 const app = express();
 
 app.use(logger('dev'));
-//TODO check what's that
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors()); // needs to be before the api calls
 app.use(passport.initialize());
 // app.use(passport.session()); we won't need this because we are going to user JWT
 app.use(checkAuthHeaderSetUser);
